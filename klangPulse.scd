@@ -22,8 +22,8 @@ SynthDef(\klangPulse,{
 		beats.inject(0, {|acc, e| acc + Impulse.kr(e)});
 	};
 
-	var freqsTest =  ({LinRand(0, topFreq).round(freq) + freq}).dup(12);
-	var ringsTest =  {Rand(0.1, ringLength)}.dup(12);
+	var freqs =  ({LinRand(0, topFreq).round(freq) + freq}).dup(12);
+	var rings =  {Rand(0.1, ringLength)}.dup(12);
 
 	var trig = trigFunc.(pulseFreq);
     var env = EnvGen.kr(Env.linen(atk, sus, rel, 1, 4), doneAction:2);
@@ -139,9 +139,18 @@ Tdef(\player1).set(\topFreq, 6000)
 Tdef(\player1).stop;
 
 
+//TODO: Map to synth params
+a = Synth('help-dynKlank');
+a.setn(\freqs, Array.rand(4, 500, 2000));
+a.setn(\amps, Array.exprand(4, 0.01, 1));
+{ Out.kr(102, MouseX.kr(1, 2) * Array.rand(4, 500, 2000)) }.play;
+a.mapn(\freqs, 102, 4);
 
 
-//Autoplayer
+
+
+
+//AUTOPLAYER
 (
 Tdef(\autoPlayer1, {
 	Tdef(\player1).play;
