@@ -210,13 +210,24 @@ Tdef(\player1).set(\transition, 4)
 Tdef(\player1).set(\sustain, 0.2)
 Tdef(\player1).set(\sustain, 6)
 
-Tdef(\player1).set(\ringLength, Pdefn(\oneIncremented).asStream / 0.5)
+Tdef(\player1).set(\ringLength, Pdefn(\oneIncremented).asStream / 2)
 Tdef(\player1).set(\ringLength, 10)
 
 Tdef(\player1).set(\topFreq, 600)
 Tdef(\player1).set(\topFreq, 6000)
 
+Tdef(\player1).set(\instrument, \dynKlankPulse);
+Tdef(\player1).set(\instrument, \klankPulse);
+
+TempoClock.default.tempo = 2;
+
+Tdef(\player1).set(\amp, 0.1);
+
+
 Tdef(\player1).stop;
+Tdef(\player1).play;
+
+
 
 
 //TODO: Map to synth params
