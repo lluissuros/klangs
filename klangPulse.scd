@@ -1,7 +1,8 @@
 /*
-rythm klang,
-generate new rythms in every iteration, each rythm is a combination of 2 integer mods.
+Using Klang to generate rythmic pads. Generate new rythms and resonance in every iteration, each rythm is a combination of n integer mods and the Synth expects an Array.
+The DynKlang version is more expensive, allows to detune the resonances.
 
+Use the Tdef \test to understand properties better.
 */
 
 (
