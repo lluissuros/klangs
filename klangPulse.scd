@@ -106,6 +106,32 @@ Pdefn(\twoIncrementedConsecutives, Pseq(p.pulses.collect({ |e| [e, e+1] }), inf)
 
 
 (
+Tdef(\testSimple, {
+	var sustain = 6;
+	var transition = 4;
+	var overlap = 1;
+	var period = transition *2 + sustain/ overlap;
+    loop {
+        Synth(\dynKlankPulse, [
+			\atk, transition,
+			\sus, sustain,
+			\rel, transition,
+			\pan, 1.0.rand2,
+			\freq, 65,
+			\topFreq, 6000,
+			\ringLength, 2,
+			\pulseFreq, [7,8],
+			\amp, 1
+        ]);
+        period.wait;
+    }
+});
+Tdef(\testSimple).play;
+)
+
+
+
+(
 Tdef(\player1, {
 	|args|
 	var period;
@@ -124,7 +150,8 @@ Tdef(\player1, {
     loop {
 		period = args[\transition] *2 + args[\sustain] / args[\overlap];
 
-        Synth(\klangPulse, [
+//        Synth(\klankPulse, [
+       Synth(\dynKlankPulse, [
 			\atk, args[\transition],
 			\sus, args[\sustain],
 			\rel, args[\transition],
