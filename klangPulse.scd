@@ -150,14 +150,14 @@ Tdef(\player1, {
 	args.overlap = 15;
 	args.topFreq = 6000;
 	args.ringLength = 3;
+	args.instrument = \dynKlankPulse;
 
 	period = args[\transition] *2 + args[\sustain] / args[\overlap];
 
     loop {
 		period = args[\transition] *2 + args[\sustain] / args[\overlap];
 
-//        Synth(\klankPulse, [
-       Synth(\dynKlankPulse, [
+		Synth(args[\instrument], [
 			\atk, args[\transition],
 			\sus, args[\sustain],
 			\rel, args[\transition],
