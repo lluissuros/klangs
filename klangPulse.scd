@@ -5,6 +5,12 @@ The DynKlang version is more expensive, allows to detune the resonances.
 Use the Tdef \test to understand properties better.
 */
 
+/*
+===================================
+1 - DEFINITION
+===================================
+*/
+
 (
 SynthDef(\klankPulse,{
 	|out = 0,
@@ -171,7 +177,7 @@ Tdef(\player1).play;
 
 /*
 ===================================
-PERFORMANCE
+2 - PERFORMANCE
 ===================================
 */
 
