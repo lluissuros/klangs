@@ -6,7 +6,7 @@ Use the Tdef \test to understand properties better.
 */
 
 (
-SynthDef(\klangPulse,{
+SynthDef(\klankPulse,{
 	|out = 0,
 	freq = 65,
 	topFreq = 6000.0,
@@ -33,16 +33,62 @@ SynthDef(\klangPulse,{
 		0.001,
 		1, -4), trig);
 
-	//var inputSound = BrownNoise.ar(0.005) * gen * amp;
-	var inputSound = Dust.ar(10000, mul:0.005) * gen * amp;
+	var inputSound = BrownNoise.ar(0.005) * gen * amp;
+	//var inputSound = Dust.ar(10000, mul:0.005) * gen * amp;
 
 	var z = Klank.ar(
-        `[freqsTest, nil, ringsTest],
+        `[freqs, nil, rings],
         inputSound
     );
 
     Out.ar(out, Pan2.ar(z*env, pan));
 }).add;
+
+
+SynthDef(\dynKlankPulse,{
+	|out = 0,
+	freq = 65,
+	topFreq = 6000.0,
+	ringLength = 3,
+	atk = 4,
+	sus = 6,
+	rel = 4,
+	pulseFreq =  #[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	pan = 0,
+	amp = 1|
+
+	var trigFunc = {|beats|
+		beats = beats.asArray;
+		beats.inject(0, {|acc, e| acc + Impulse.kr(e)});
+	};
+
+	var freqs =  ({LinRand(0, topFreq).round(freq) + freq}).dup(12);
+	var dynFreqs = freqs.collect({
+		|f|
+		var start = 1;
+		if(0.5.coin) {start = 2} {start = 0.5};
+		f * XLine.kr(start,1, atk) });
+
+	var rings =  {Rand(0.1, ringLength)}.dup(12);
+
+	var trig = trigFunc.(pulseFreq);
+    var env = EnvGen.kr(Env.linen(atk, sus, rel, 1, 4), doneAction:2);
+	var gen = EnvGen.kr(
+		Env.perc(0.001,
+		0.001,
+		1, -4), trig);
+
+	var inputSound = BrownNoise.ar(0.005) * gen * amp;
+	//var inputSound = Dust.ar(10000, mul:0.005) * gen * amp;
+
+	var z = DynKlank.ar(
+        `[dynFreqs, nil, rings],
+        inputSound
+    );
+
+    Out.ar(out, Pan2.ar(z*env, pan));
+}).add;
+
 
 
 //patterns
