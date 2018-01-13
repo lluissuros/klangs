@@ -249,26 +249,84 @@ Tdef(\autoPlayer1, {
 	loop {
 		"".postln;
 		"========new===========".postln;
+		Tdef(\player1).set(\instrument, [\dynKlankPulse, \klankPulse].choose.postln); 2.wait;
+
 		Tdef(\player1).set(\pulseFreq, [
 			Pdefn(\oneRand),
 			Pdefn(\twoRand),
 			Pdefn(\twoConsecutivesRand),
 			Pdefn(\oneIncremented),
-			Pdefn(\twoIncrementedConsecutives)].choose.postln.asStream);
+			Pdefn(\twoIncrementedConsecutives)].choose.postln.asStream); 2.wait;
 
 		//Tdef(\player1).set(\overlap, 20.rand.max(1).postln);
-		Tdef(\player1).set(\baseFreq, Scale.major.degreeToFreq([1,3,5].choose.postln, 20.midicps, 1));
-
-		Tdef(\player1).set(\overlap, gauss(15,5).max(5).postln);
-		Tdef(\player1).set(\transition, gauss(7,2).max(2).postln);
-		Tdef(\player1).set(\sustain, gauss(10,2).max(2).postln);
-		Tdef(\player1).set(\ringLength, gauss(3,2).max(1).postln);
-		Tdef(\player1).set(\topFreq, gauss(6000,5000).max(100).postln);
+		Tdef(\player1).set(\baseFreq, Scale.major.degreeToFreq([1,3,5].choose.post, 20.midicps, 1)); "<-- baseFreq degree ".postln; 2.wait;
+		Tdef(\player1).set(\overlap, gauss(15,5).max(5).post); "<-- overlap ".postln; 2.wait;
+		Tdef(\player1).set(\transition, gauss(7,2).max(2).post); "<-- transition ".postln; 2.wait;
+		Tdef(\player1).set(\sustain, gauss(10,2).max(2).post); "<-- sustain ".postln; 2.wait;
+		Tdef(\player1).set(\ringLength, gauss(3,2).max(1).post); "<-- ringLength ".postln; 2.wait;
+		Tdef(\player1).set(\topFreq, gauss(6000,5000).max(300).post); "<-- topFreq ".postln; 2.wait;
 		"next in ".post;
-		gauss(35,5).max(3).postln.wait;
+		gauss(18,5).max(3).postln.wait;
     }
 });
-//Tdef(\autoPlayer1).fadeTime = 5;
 Tdef(\autoPlayer1).play;
 )
 Tdef(\autoPlayer1).stop;
+
+
+
+
+//best plays of Autoplayer
+========new===========
+dynKlankPulse
+Pdefn('twoIncrementedConsecutives')
+5<-- baseFreq degree
+23.755988297985<-- overlap
+4.9093128231368<-- transition
+14.159145395625<-- sustain§
+5.5619126184901<-- ringLength
+6546.9616776204<-- topFreq
+next in 40.378011990171
+
+========new===========
+dynKlankPulse
+Pdefn('twoRand')
+5<-- baseFreq degree
+17.821676060383<-- overlap
+5.7210822393612<-- transition
+10.056875105664<-- sustain
+5.7376701703618<-- ringLength
+14835.375343968<-- topFreq
+next in 35.043354301193
+
+========new===========
+dynKlankPulse
+Pdefn('twoIncrementedConsecutives')
+5<-- baseFreq degree
+23.439219461427<-- overlap
+6.3130743249853<-- transition
+11.700021727256<-- sustain
+7.4419327751855<-- ringLength
+5596.6905765275<-- topFreq
+
+========new===========
+klankPulse
+Pdefn('oneRand')
+5<-- baseFreq degree
+19.596576569032<-- overlap
+6.3712123812948<-- transition
+9.0335344092917<-- sustain
+4.4929529873241<-- ringLength
+9051.0148496385<-- topFreq
+next in 24.756166599567
+
+========new===========
+klankPulse
+Pdefn('twoRand')
+1<-- baseFreq degree
+11.895928570241<-- overlap
+7.6139846150542<-- transition
+9.5550017511552<-- sustain
+3.4495942598109<-- ringLength
+8302.8671728229<-- topFreq
+next in 25.826394485539
