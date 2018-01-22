@@ -137,6 +137,51 @@ SynthDef.new(\iterPulse,{
 }).add;
 
 
+SynthDef.new(\iterMouseFilterPulse,{
+	arg
+	freq = 65,
+	out = 0,
+	amp=1,
+	minffreq=80,
+	maxffreq=2000,
+	pan=0,
+	atk = 4,
+	sus = 6,
+	rel = 4,
+	pulseFreq =  #[7,8];
+
+	var sound, ffreq;
+	var trigFunc = {|beats|
+		beats = beats.asArray;
+		beats.inject(0, {|acc, e| acc + Impulse.kr(e)});
+	};
+	var fatSawMaker = {|numSynths|
+		var sumSynth = 0;
+		numSynths.do{
+			sumSynth = sumSynth +
+			VarSaw.ar(
+			freq * {Rand(0.99,1.02)},
+			{Rand(0.0,1.0)},
+			{ExpRand(0.005,0.05)});
+		};
+		sumSynth;
+	};
+	var trig = trigFunc.(pulseFreq);
+    var env = EnvGen.kr(Env.linen(atk, sus, rel, 1, 4), doneAction:2);
+	var gen = EnvGen.kr(
+		Env.perc(0.01,
+		0.4, // should be a param
+		1, -4), trig);
+
+	sound = fatSawMaker.(20) * 0.1 * env * amp * gen;
+
+	maxffreq = MouseX.kr(0,1).exprange(50,4000);
+	ffreq = Rand(minffreq, maxffreq);
+	sound = MoogFF.ar(sound, SinOscFB.kr(freq:ffreq.reciprocal, feedback: Rand(0,2), mul:ffreq/2, add:ffreq), MouseY.kr(0,4));
+
+	Out.ar(0, Pan2.ar(sound, pan));
+}).add;
+
 
 
 //patterns
@@ -266,6 +311,7 @@ Tdef(\player1).set(\maxffreq, 6000)
 Tdef(\player1).set(\instrument, \dynKlankPulse);
 Tdef(\player1).set(\instrument, \klankPulse);
 Tdef(\player1).set(\instrument, \iterPulse);
+Tdef(\player1).set(\instrument, \iterMouseFilterPulse);
 
 TempoClock.default.tempo = 2;
 TempoClock.default.tempo = 1;
