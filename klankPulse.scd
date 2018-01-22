@@ -226,7 +226,7 @@ Tdef(\player1).play;
 
 /*
 todo:
- - different Task with a Routine, changing params, with fadeTime.
+- Use Pbind, with the Pitch model> scale, octaves, degree, rest, etc.q. Avoid multichannel expansion with [[]], also can ask in the Forum
  -GUI
 */
 
