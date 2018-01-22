@@ -84,16 +84,58 @@ SynthDef(\dynKlankPulse,{
 		0.001,
 		1, -4), trig);
 
-	var inputSound = BrownNoise.ar(0.005) * gen * amp;
-	//var inputSound = Dust.ar(10000, mul:0.005) * gen * amp;
+	var pulse = BrownNoise.ar(0.005) * gen * amp;
+	//var pulse = Dust.ar(10000, mul:0.005) * gen * amp;
 
 	var z = DynKlank.ar(
         `[dynFreqs, nil, rings],
-        inputSound
+        pulse
     );
 
     Out.ar(out, Pan2.ar(z*env, pan));
 }).add;
+
+
+SynthDef.new(\iterPulse,{
+	arg
+	freq = 65,
+	out = 0,
+	amp=1,
+	minffreq=80,
+	maxffreq=2000,
+	pan=0,
+	atk = 4,
+	sus = 6,
+	rel = 4,
+	pulseFreq =  #[7,8];
+
+	var trigFunc = {|beats|
+		beats = beats.asArray;
+		beats.inject(0, {|acc, e| acc + Impulse.kr(e)});
+	};
+	var fatSawMaker = {|numSynths|
+		var sumSynth = 0;
+		numSynths.do{
+			sumSynth = sumSynth +
+			VarSaw.ar(
+				freq * {Rand(0.99,1.02)},
+				{Rand(0.0,1.0)},
+				{ExpRand(0.005,0.05)});
+		};
+		sumSynth;
+	};
+	var trig = trigFunc.(pulseFreq);
+    var env = EnvGen.kr(Env.linen(atk, sus, rel, 1, 4), doneAction:2);
+	var gen = EnvGen.kr(
+		Env.perc(0.01,
+		{Rand(0.3,0.5)}, // should be a param
+		1, -4), trig);
+
+	var sound = fatSawMaker.(20) * 0.04 * env * amp * gen;
+
+	Out.ar(0, Pan2.ar(sound, pan));
+}).add;
+
 
 
 
