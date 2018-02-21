@@ -199,29 +199,29 @@ Pdefn(\twoIncrementedConsecutives, Pseq(p.pulses.collect({ |e| [e, e+1] }), inf)
 
 
 (
-Tdef(\testSimple, {
-	var sustain = 6;
+Tdef(\simplePlayer, {
+	var sustain = 8;
 	var transition = 4;
-	var overlap = 1;
+	var overlap = 3;
 	var period = transition *2 + sustain/ overlap;
     loop {
-        Synth(\iterPulse, [
+        Synth(\iterMouseFilterPulse, [
 			\atk, transition,
 			\sus, sustain,
 			\rel, transition,
 			\pan, 1.0.rand2,
-			\freq, 365,
+			\freq, 65 * 4 * 3/2,
 			\maxffreq, 6000,
-			\ringLength, 2,
+			\ringLength, 6,
 			\pulseFreq, [7,8],
-			\amp, 1
+			\amp, 0.5
         ]);
         period.wait;
     }
 });
-Tdef(\testSimple).play;
+Tdef(\simplePlayer).play;
 )
-Tdef(\testSimple).stop;
+Tdef(\simplePlayer).stop;
 
 
 
@@ -286,23 +286,44 @@ Tdef(\player1).set(\pulseFreq, Pdefn(\oneIncremented).asStream);
 Tdef(\player1).set(\pulseFreq, Pdefn(\twoIncrementedConsecutives).asStream);
 
 Tdef(\player1).set(\baseFreq, 120)
+Tdef(\player1).set(\baseFreq, 120 * 5/4)
+Tdef(\player1).set(\baseFreq, 60 * 3/2)
 Tdef(\player1).set(\baseFreq, 240)
-Tdef(\player1).set(\baseFreq, 240)
-Tdef(\player1).set(\baseFreq, Scale.minor.degreeToFreq([1,3,5].choose.postln, 20.midicps, 1));
+Tdef(\player1).set(\baseFreq, 240 * 5/4)
+Tdef(\player1).set(\baseFreq, {Scale.minor.degreeToFreq([1,3,5,9,13].choose.postln, [20,40].choose.midicps, 1)});
 Tdef(\player1).set(\baseFreq, 60);
+Tdef(\player1).set(\baseFreq, 30);
 
 Tdef(\player1).set(\overlap, 1)
 Tdef(\player1).set(\overlap, 5)
-Tdef(\player1).set(\overlap, 15)
+Tdef(\player1).set(\overlap, 10)
+Tdef(\player1).set(\overlap, 25)
+Tdef(\player1).set(\overlap, 50)
+Tdef(\player1).set(\overlap, 80) // max cpu
+
 
 Tdef(\player1).set(\transition, 0.1)
 Tdef(\player1).set(\transition, 4)
 
 Tdef(\player1).set(\sustain, 0.2)
-Tdef(\player1).set(\sustain, 6)
+Tdef(\player1).set(\sustain, 5)
+Tdef(\player1).set(\sustain, 10)
+Tdef(\player1).set(\sustain, 20)//caution
 
 Tdef(\player1).set(\ringLength, Pdefn(\oneIncremented).asStream / 2)
+Tdef(\player1).set(\ringLength, Pdefn(\oneIncremented).asStream)
+Tdef(\player1).set(\ringLength, 0.01) // rascar
+Tdef(\player1).set(\ringLength, 0.05) // casi ruido
+Tdef(\player1).set(\ringLength, 0.2) // hay nota
+Tdef(\player1).set(\ringLength, 0.4)
+Tdef(\player1).set(\ringLength, 1)
 Tdef(\player1).set(\ringLength, 10)
+
+(
+Tdef(\player1).set(\overlap, 25);
+Tdef(\player1).set(\ringLength, 0.1);
+Tdef(\player1).set(\ringLength, 1);
+)
 
 Tdef(\player1).set(\maxffreq, 300)
 Tdef(\player1).set(\maxffreq, 600)
