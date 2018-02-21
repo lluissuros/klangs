@@ -9,7 +9,7 @@ Tdef(\player1).play;
 Tdef(\player1).set(\sustain, 10);
 Tdef(\player1).set(\instrument, \dynKlankPulse);
 Tdef(\player1).set(\baseFreq, 60);
-Tdef(\player1).set(\transition, 4)
+Tdef(\player1).set(\transition, 4);
 
 Tdef(\player1).set(\pulseFreq, Pdefn(\twoConsecutivesRand).asStream);
 
@@ -41,6 +41,8 @@ Tdef(\higherNotes).play;
 
 
 
+
+//DEFINITIONS
 (
 Tdef(\lowerNotes, {
 	var freqs = Pseq([
