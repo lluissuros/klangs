@@ -131,7 +131,7 @@ SynthDef.new(\iterPulse,{
 		{Rand(0.3,0.5)}, // should be a param
 		1, -4), trig);
 
-	var sound = fatSawMaker.(20) * 0.04 * env * amp * gen;
+	var sound = fatSawMaker.(20) * 0.02 * env * amp * gen;
 
 	Out.ar(0, Pan2.ar(sound, pan));
 }).add;
@@ -175,7 +175,7 @@ SynthDef.new(\iterMouseFilterPulse,{
 
 	sound = fatSawMaker.(20) * 0.1 * env * amp * gen;
 
-	maxffreq = MouseX.kr(0,1).exprange(50,4000);
+	maxffreq = MouseX.kr(0,1).exprange(50,4000).poll(0.1, \maxfreq);
 	ffreq = Rand(minffreq, maxffreq);
 	sound = MoogFF.ar(sound, SinOscFB.kr(freq:ffreq.reciprocal, feedback: Rand(0,2), mul:ffreq/2, add:ffreq), MouseY.kr(0,4));
 
@@ -232,8 +232,8 @@ Tdef(\player1, {
 
 	//defaults
 	args.pulseFreq = Pdefn(\twoIncrementedConsecutives).asStream;
-	args.baseFreq = Scale.major.degreeToFreq(1, 20.midicps, 1);
-	args.sustain = 6;
+	args.baseFreq = Scale.minor.degreeToFreq(1, 20.midicps, 1);
+	args.sustain = 10;
 	args.transition = 4;
 	args.overlap = 15;
 	args.maxffreq = 6000;
@@ -321,6 +321,9 @@ Tdef(\player1).set(\amp, 0.1);
 
 Tdef(\player1).stop;
 Tdef(\player1).play;
+
+
+
 
 
 
