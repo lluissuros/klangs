@@ -1,6 +1,9 @@
 // This is a session to play klankPulse.scd
 // First execute the code below with all the defs
 
+s.record;
+s.stopRecording;
+
 
 (
 //part1
@@ -13,12 +16,13 @@ Tdef(\player1).set(\transition, 4);
 
 Tdef(\player1).set(\pulseFreq, Pdefn(\twoConsecutivesRand).asStream);
 
-Tdef(\rampUp).play;
+Tdef(\rampUpOverlap).play;
 Tdef(\longRingsToShort).play;
 Tdef(\higherNotes).play;
 Tdef(\lowerNotes).play;
 )
 
+Tdef(\player1).set(\pulseFreq, Pdefn(\twoRand).asStream);
 
 (
 //part 2
@@ -37,6 +41,18 @@ Tdef(\overlapToHigh).play;
 Tdef(\automateInstrument).play;
 Tdef(\higherNotes).play;
 )
+
+
+(
+//before the end
+Tdef(\player1).set(\sustain, 30);
+)
+(
+//and the end
+Tdef(\player1).set(\sustain, 30);
+Tdef(\player1).stop;
+)
+
 
 
 
@@ -67,7 +83,8 @@ Tdef(\higherNotes, {
 		240 * 5/4,
 		480 * 3/2,
 		600,
-		1200 * 3/4
+		1200 * 3/4,
+		4800
 	], inf).asStream;
 
     loop {
@@ -107,7 +124,7 @@ Tdef(\automateInstrument, {
 
     loop {
 		Tdef(\player1).set(\instrument, instruments.next.postln);
-		1.wait;
+		0.2.wait;
     }
 });
 
@@ -120,8 +137,8 @@ Tdef(\overlapToHigh, {
 });
 
 
-Tdef(\rampUp, {
-	var values = (5..25);
+Tdef(\rampUpOverlap, {
+	var values = (2..25);
     values.do { |val|
 		Tdef(\player1).set(\overlap, val.postln);
 		5.wait;
