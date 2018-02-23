@@ -5,6 +5,86 @@ s.record;
 s.stopRecording;
 
 
+//TODO: Make it dependent on Scale and ratios
+1- Try to mimic what we have by using scale
+2- abstract the scale and the baseFreq, so we have a nice versatility of baseFreq and modes.
+3- Diferent Tdefs with diferent cool harmonies.
+
+
+//dirty POC
+
+//degreeToFreq (degree, rootFreq, octave)
+
+{Scale.minor.degreeToFreq(2, 60, 1)}.()
+
+(
+//BASSLINE
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(2, 60, 1).round(0.01);
+}.().postln; //150
+
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(0, 60, 1).round(0.01);
+}.().postln; //120
+
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(0, 60, 0).round(0.01);
+}.().postln; //60
+
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(5, 60, -1).round(0.01);
+}.().postln; //50
+
+//MELODY
+"MELODY".postln;
+
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(0, 60, -1).round(0.01);
+}.().postln; //30
+
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(2, 60, 2).round(0.01);
+}.().postln; //300
+
+)
+
+
+
+
+		60,
+		120,
+		150, //120 * 5/4
+		60,
+		48,  //60 * 4/5
+		60
+
+		30,
+		300, //240 * 5/4
+		720, //240 * 5/4
+		600,
+		900, //1200 * 3/4
+		4800
+
+
+
+
+
+
+
+
+
 (
 //part1
 Tdef(\player1).play;
@@ -138,7 +218,7 @@ Tdef(\overlapToHigh, {
 
 
 Tdef(\rampUpOverlap, {
-	var values = (2..25);
+	var values = (5..25);
     values.do { |val|
 		Tdef(\player1).set(\overlap, val.postln);
 		5.wait;
