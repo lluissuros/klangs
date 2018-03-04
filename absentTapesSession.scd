@@ -58,6 +58,30 @@ s.stopRecording;
 	scale.degreeToFreq(2, 60, 2).round(0.01);
 }.().postln; //300
 
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(4, 60, 3).round(0.01);
+}.().postln; //720
+
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(2, 60, 3).round(0.01);
+}.().postln; //600
+
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(6, 60, 3).round(0.01);
+}.().postln; //900
+
+{
+	var scale = Scale.major;
+	scale.tuning_(\just);
+	scale.degreeToFreq(2, 60, 6).round(0.01);
+}.().postln; //4800
+
 )
 
 
