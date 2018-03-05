@@ -6,18 +6,9 @@ s.stopRecording;
 
 
 //TODO: Make it dependent on Scale and ratios
-1- Try to mimic what we have by using scale
-2- abstract the scale and the baseFreq, so we have a nice versatility of baseFreq and modes.
+1- Try to mimic what we have by using scale //done
+2- abstract the scale and the baseFreq, so we have a nice versatility of baseFreq and modes. //done, with glovars
 3- Diferent Tdefs with diferent cool harmonies.
-
-
-//dirty POC
-
-//degreeToFreq (degree, rootFreq, octave)
-
-{Scale.minor.degreeToFreq(2, 60, 1)}.()
-
-
 
 
 
@@ -27,9 +18,11 @@ s.stopRecording;
 
 //can play with these:
 Scale.directory;
+Scale.kumoi.degrees;
 
 f[\changeScale].(Scale.major.tuning_(\just));
 f[\changeScale].(Scale.partch_o1);
+f[\changeScale].(Scale.kumoi);
 
 
 (
@@ -82,19 +75,6 @@ Tdef(\player1).stop;
 
 
 
-//test
-Scale.directory;
-~baseScale =  Scale.partch_o1;
-~baseScale =  Scale.major;
-~baseScale.degreeToFreq( 1, ~baseFreq, 0 );
-
-Scale.kumoi.degrees;
-Scale.partch_o1.degrees;
-
-Scale.partch_o1.degreeToRatio(2, 1) * 60
-
-
-
 /*++++++++++++++++++++++++++++++++++++++++
 =======   DEFINITIONS =================
 ++++++++++++++++++++++++++++++++++++++++*/
@@ -102,8 +82,7 @@ Scale.partch_o1.degreeToRatio(2, 1) * 60
 (
 //GLOVARS
 ~baseFreq = 60;
-~baseScale =  Scale.major;
-~baseScale.tuning_(\just);
+~baseScale =  Scale.major.tuning_(\just);
 
 
 //FUNCTIONS
@@ -200,8 +179,3 @@ Tdef(\rampUpOverlap, {
 	}
 });
 )
-
-
-
-
-

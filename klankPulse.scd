@@ -184,6 +184,7 @@ SynthDef.new(\iterMouseFilterPulse,{
 
 
 
+
 //patterns
 p = ( );
 p.pulses = (1..5).addAll([7]);
@@ -259,8 +260,8 @@ Tdef(\player1, {
         period.wait;
     }
 });
-Tdef(\player1).play;
 )
+Tdef(\player1).play;
 
 
 /*
@@ -333,6 +334,7 @@ Tdef(\player1).set(\instrument, \dynKlankPulse);
 Tdef(\player1).set(\instrument, \klankPulse);
 Tdef(\player1).set(\instrument, \iterPulse);
 Tdef(\player1).set(\instrument, \iterMouseFilterPulse);
+
 
 TempoClock.default.tempo = 2;
 TempoClock.default.tempo = 1;
