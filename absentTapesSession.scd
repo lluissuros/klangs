@@ -17,96 +17,19 @@ s.stopRecording;
 
 {Scale.minor.degreeToFreq(2, 60, 1)}.()
 
-(
-//BASSLINE
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(2, 60, 1).round(0.01);
-}.().postln; //150
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(0, 60, 1).round(0.01);
-}.().postln; //120
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(0, 60, 0).round(0.01);
-}.().postln; //60
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(5, 60, -1).round(0.01);
-}.().postln; //50
-
-//MELODY
-"MELODY".postln;
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(0, 60, -1).round(0.01);
-}.().postln; //30
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(2, 60, 2).round(0.01);
-}.().postln; //300
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(4, 60, 3).round(0.01);
-}.().postln; //720
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(2, 60, 3).round(0.01);
-}.().postln; //600
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(6, 60, 3).round(0.01);
-}.().postln; //900
-
-{
-	var scale = Scale.major;
-	scale.tuning_(\just);
-	scale.degreeToFreq(2, 60, 6).round(0.01);
-}.().postln; //4800
-
-)
 
 
 
 
-		60,
-		120,
-		150, //120 * 5/4
-		60,
-		48,  //60 * 4/5
-		60
+/*++++++++++++++++++++++++++++++++++++++++
+=======   PERFORMANCE =================
+++++++++++++++++++++++++++++++++++++++++*/
 
-		30,
-		300, //240 * 5/4
-		720, //240 * 5/4
-		600,
-		900, //1200 * 3/4
-		4800
+//can play with these:
+Scale.directory;
 
-
-
-
-
-
-
+f[\changeScale].(Scale.major.tuning_(\just));
+f[\changeScale].(Scale.partch_o1);
 
 
 (
