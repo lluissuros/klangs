@@ -82,65 +82,94 @@ Tdef(\player1).stop;
 
 
 
+//test
+Scale.directory;
+~baseScale =  Scale.partch_o1;
+~baseScale =  Scale.major;
+~baseScale.degreeToFreq( 1, ~baseFreq, 0 );
+
+Scale.kumoi.degrees;
+Scale.partch_o1.degrees;
+
+Scale.partch_o1.degreeToRatio(2, 1) * 60
 
 
 
-//DEFINITIONS
+/*++++++++++++++++++++++++++++++++++++++++
+=======   DEFINITIONS =================
+++++++++++++++++++++++++++++++++++++++++*/
+
 (
-Tdef(\lowerNotes, {
-	var freqs = Pseq([
-		60,
-		120,
-		120 * 5/4,
-		60,
-		60 * 4/5,
-		60], inf).asStream;
-
-    loop {
-		Tdef(\player1).set(\baseFreq, freqs.next.postln);
-		6.wait;
-		// 1.wait;
-    }
-});
+//GLOVARS
+~baseFreq = 60;
+~baseScale =  Scale.major;
+~baseScale.tuning_(\just);
 
 
-Tdef(\higherNotes, {
-	var freqs = Pseq([
-		30,
-		240 * 5/4,
-		480 * 3/2,
-		600,
-		1200 * 3/4,
-		4800
-	], inf).asStream;
+//FUNCTIONS
+f = f ? ();
 
-    loop {
-		Tdef(\player1).set(\baseFreq, freqs.next.postln);
-		// 2.wait;
-        10.wait;
-    }
-});
+f[\createHarmonicDefs] = {
+	"updating harmonies".postln;
 
+	Tdef(\lowerNotes, {
+		var freqs = Pseq([
+			~baseScale.degreeToFreq( 0, ~baseFreq, 0 ),
+			~baseScale.degreeToFreq( 0, ~baseFreq, 1 ),
+			~baseScale.degreeToFreq( 2, ~baseFreq, 1 ),
+			~baseScale.degreeToFreq( 0, ~baseFreq, 0 ),
+			~baseScale.degreeToFreq( 5, ~baseFreq, -1 ),
+			~baseScale.degreeToFreq( 0, ~baseFreq, 0 ),
+		], inf).asStream;
+
+		loop {
+			Tdef(\player1).set(\baseFreq, freqs.next.postln);
+			6.wait;
+		}
+	});
+
+	Tdef(\higherNotes, {
+		var freqs = Pseq([
+			~baseScale.degreeToFreq( 0, ~baseFreq, -1 ),
+			~baseScale.degreeToFreq( 2, ~baseFreq, 2 ),
+			~baseScale.degreeToFreq( 4, ~baseFreq, 3 ),
+			~baseScale.degreeToFreq( 2, ~baseFreq, 3 ),
+			~baseScale.degreeToFreq( 6, ~baseFreq, 3 ),
+			~baseScale.degreeToFreq( 2, ~baseFreq, 6 ),
+		], inf).asStream;
+
+		loop {
+			Tdef(\player1).set(\baseFreq, freqs.next.postln);
+			10.wait;
+		}
+	});
+};
+
+f[\changeScale]= { |scale|
+	~baseScale =  scale;
+	f[\createHarmonicDefs].();
+};
+
+
+
+// TDEFS
+f[\createHarmonicDefs].();
 
 Tdef(\longRingsToShort, {
 	var rings = (200..1) / 20;
 	rings.do { |ring|
 		Tdef(\player1).set(\ringLength, ring.postln);
 		0.5.wait;
-    }
+	}
 });
-
-
 
 Tdef(\automateShortRings, {
 	var rings = Pseq((40..1).mirror / 100, inf).asStream;
-    loop {
+	loop {
 		Tdef(\player1).set(\ringLength, rings.next.postln);
 		2.wait;
-    }
+	}
 });
-
-
 
 Tdef(\automateInstrument, {
 	var instruments = Pwrand(
@@ -149,10 +178,10 @@ Tdef(\automateInstrument, {
 		inf)
 	.asStream;
 
-    loop {
+	loop {
 		Tdef(\player1).set(\instrument, instruments.next.postln);
 		0.2.wait;
-    }
+	}
 });
 
 
@@ -160,15 +189,19 @@ Tdef(\overlapToHigh, {
 	(25..80).do { |overlap|
 		Tdef(\player1).set(\overlap, overlap.next.postln);
 		1.wait;
-    }
+	}
 });
-
 
 Tdef(\rampUpOverlap, {
 	var values = (5..25);
-    values.do { |val|
+	values.do { |val|
 		Tdef(\player1).set(\overlap, val.postln);
 		5.wait;
-    }
+	}
 });
 )
+
+
+
+
+
