@@ -12,9 +12,7 @@ s.stopRecording;
 
 
 
-/*++++++++++++++++++++++++++++++++++++++++
-=======   PERFORMANCE =================
-++++++++++++++++++++++++++++++++++++++++*/
+
 
 //can play with these:
 Scale.directory;
@@ -37,6 +35,64 @@ Tdef(\lowerNotes_I_II_V_VI).stop;
 Tdef(\player1).set(\baseFreq, 60);
 ~baseFreq = ~baseScale.degreeToFreq( ~baseScale.degrees.choose, ~baseFreq, [-1,-2].choose);
 
+
+
+
+/*++++++++++++++++++++++++++++++++++++++++
+=======    MIDIdefs    =================
+++++++++++++++++++++++++++++++++++++++++*/
+
+(
+MIDIClient.init;
+MIDIIn.connectAll;
+
+MIDIdef.freeAll;
+
+//use val.linexp(0,127,0,0.1) or linexp to map from 127 to good values!!!
+
+
+//sliders
+MIDIdef.cc(\slider0ToSustain, {|val, num, chan, src|
+	var sustain = val.linexp(0,127,0.5,30).round(0.01);
+	("sustain "+ sustain).postln;
+	Tdef(\player1).set(\sustain, sustain);
+}, 0, 0);
+
+MIDIdef.cc(\slider1ToTransition, {|val, num, chan, src|
+	var transition = val.linexp(0,127,1,15).round(1);
+	("transition "+ transition).postln;
+	Tdef(\player1).set(\transition, transition);
+}, 1, 0);
+
+MIDIdef.cc(\slider2ToOverlap, {|val, num, chan, src|
+	var overlap = val.linexp(0,127,1,80).round(1);
+	("overlap "+ overlap).postln;
+	Tdef(\player1).set(\overlap, overlap);
+}, 2, 0);
+
+MIDIdef.cc(\slider3ToRingLength, {|val, num, chan, src|
+	var ringLength = val.linexp(0,127,0.01,80).round(0.001);
+	("ringLength "+ ringLength).postln;
+	Tdef(\player1).set(\ringLength, ringLength);
+}, 3, 0);
+
+MIDIdef.cc(\slider4ToMaxFreq, {|val, num, chan, src|
+	var maxffreq = val.linexp(0,127,80,15000).round(0.01);
+	("maxffreq "+ maxffreq).postln;
+	Tdef(\player1).set(\maxffreq, maxffreq);
+}, 4, 0);
+
+
+//buttons
+//TODO> single push to change
+~instruments = Pseq([\iterMouseFilterPulse, \dynKlankPulse, \klankPulse, \iterPulse], inf).asStream;
+MIDIdef.cc(\buttonChangeInstrument, {|val, num, chan, src|
+	var instrument = ~instruments.next;
+	("instrument: "+ instrument).postln;
+	Tdef(\player1).set(\instrument, instrument);
+}, 32, 0);
+
+)
 
 
 //SECTIONs
