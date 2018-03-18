@@ -18,13 +18,28 @@ s.stopRecording;
 
 //can play with these:
 Scale.directory;
-Scale.kumoi.degrees;
+Scale.romanianMinor.degrees;
 
 f[\changeScale].(Scale.major.tuning_(\just));
 f[\changeScale].(Scale.partch_o1);
-f[\changeScale].(Scale.kumoi);
+
+f[\changeScale].(Scale.kumoi); //nice, bright and tense
+f[\changeScale].(Scale.zhi); //nice and bright
+f[\changeScale].(Scale.romanianMinor); //darker but nice also
+
+Tdef(\player1).set(\ringLength, 1);
+
+Tdef(\higherNotes).play;
+Tdef(\higherNotes2).stop;
+Tdef(\lowerNotes).play;
+Tdef(\lowerNotes_I_II_V_VI).stop;
+
+Tdef(\player1).set(\baseFreq, 60);
+~baseFreq = ~baseScale.degreeToFreq( ~baseScale.degrees.choose, ~baseFreq, [-1,-2].choose);
 
 
+
+//SECTIONs
 (
 //part1
 Tdef(\player1).play;
@@ -107,6 +122,21 @@ f[\createHarmonicDefs] = {
 		}
 	});
 
+
+	Tdef(\lowerNotes_I_II_V_VI, {
+		var freqs = Pseq([
+			~baseScale.degreeToFreq( 0, ~baseFreq, 0 ),
+			~baseScale.degreeToFreq( 2, ~baseFreq, 0 ),
+			~baseScale.degreeToFreq( 6, ~baseFreq, 0 ),
+			~baseScale.degreeToFreq( 5, ~baseFreq, 0 ),
+		], inf).asStream;
+
+		loop {
+			Tdef(\player1).set(\baseFreq, freqs.next.postln);
+			5.wait;
+		}
+	});
+
 	Tdef(\higherNotes, {
 		var freqs = Pseq([
 			~baseScale.degreeToFreq( 0, ~baseFreq, -1 ),
@@ -120,6 +150,36 @@ f[\createHarmonicDefs] = {
 		loop {
 			Tdef(\player1).set(\baseFreq, freqs.next.postln);
 			10.wait;
+		}
+	});
+
+	Tdef(\higherNotes2, {
+		var freqs = Pseq([
+			~baseScale.degreeToFreq( 3, ~baseFreq, 4 ),
+			~baseScale.degreeToFreq( 6, ~baseFreq, 4 ),
+			~baseScale.degreeToFreq( 7, ~baseFreq, 4 ),
+			~baseScale.degreeToFreq( 2, ~baseFreq, 6 ),
+			~baseScale.degreeToFreq( 5, ~baseFreq, 5 ),
+		], inf).asStream;
+
+		loop {
+			Tdef(\player1).set(\baseFreq, freqs.next.postln);
+			9.wait;
+		}
+	});
+
+	Tdef(\higherNotes2, {
+		var freqs = Prand([
+			~baseScale.degreeToFreq( 6, ~baseFreq, 5 ),
+			~baseScale.degreeToFreq( 3, ~baseFreq, 4 ),
+			~baseScale.degreeToFreq( 7, ~baseFreq, 5),
+			~baseScale.degreeToFreq( 2, ~baseFreq, 4 ),
+			~baseScale.degreeToFreq( 5, ~baseFreq, 4 ),
+		], inf).asStream;
+
+		loop {
+			Tdef(\player1).set(\baseFreq, freqs.next.postln);
+			9.wait;
 		}
 	});
 };
