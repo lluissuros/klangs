@@ -12,7 +12,7 @@ s.stopRecording;
 
 
 
-
+Tdef(\player1).play;
 
 //can play with these:
 Scale.directory;
@@ -28,6 +28,7 @@ f[\changeScale].(Scale.romanianMinor); //darker but nice also
 Tdef(\player1).set(\ringLength, 1);
 
 Tdef(\higherNotes).play;
+Tdef(\higherNotes2).play;
 Tdef(\higherNotes2).stop;
 Tdef(\lowerNotes).play;
 Tdef(\lowerNotes_I_II_V_VI).stop;
